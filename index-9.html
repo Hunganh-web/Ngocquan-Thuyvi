@@ -58,7 +58,7 @@
                                 <div class="wpo-event-item wow zoomIn" data-wow-duration="1500ms">
                                     <div class="wpo-event-text">
                                         <h2>Ngọc Quân & Thuý Vi</h2>
-                                        <p>Lễ Thành hôn diễn ra vào ngày: 27/12/2026</p>
+                                        <p>Lễ Thành hôn diễn ra vào ngày: <strong>27/12/2026</strong></p>
                                         
                                         <!-- Couple information - Bride on left, Groom on right -->
                                         <div class="couple-section" style="display: flex; flex-wrap: wrap; justify-content: space-between; margin: 30px 0;">
@@ -73,7 +73,7 @@
                                             <div class="couple-item" style="flex: 1; min-width: 250px; margin: 10px; text-align: center;">
                                                 <h3>Nhà Trai</h3>
                                                 <p>Ông: Nguyễn Ngọc Thương <br> Bà: Lê Thị Thuỷ</p>
-                                                <p>Xóm Hồng Thái - Nam Đàn - Nghệ An</p>
+                                                <p>Xóm <strong>Hồng Thái</strong> - <strong>Nam Đàn</strong> - Nghệ An</p>
                                             </div>
                                         </div>
                                         
@@ -132,6 +132,26 @@
     <script src="assets/js/jquery-plugin-collection.js"></script>
     <!-- Custom script for this template -->
     <script src="assets/js/script.js"></script>
+    
+    <!-- Music Control Button -->
+    <div id="music-control" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999; background: #D4B0A5; border-radius: 30px; padding: 10px 15px; display: flex; align-items: center; cursor: pointer; box-shadow: 0 2px 10px rgba(0,0,0,0.2);">
+        <i class="fi flaticon-music-player" style="font-size: 20px; color: white;"></i>
+        <span id="music-text" style="color: white; margin-left: 8px; font-weight: 500; display: flex; align-items: center;"><i class="fi flaticon-music-player" style="font-size: 16px; margin-right: 5px;"></i>tắt nhạc</span>
+    </div>
+    
+    <!-- Music Control Script -->
+    <script>
+    // Music control for index-9.html (redirects to index.html when clicked)
+    document.addEventListener('DOMContentLoaded', function() {
+        const musicControl = document.getElementById('music-control');
+        
+        // When music button is clicked, redirect to index.html
+        musicControl.addEventListener('click', function() {
+            window.location.href = 'index.html';
+        });
+    });
+    </script>
+    
 </body>
 
 
