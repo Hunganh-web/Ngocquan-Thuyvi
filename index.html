@@ -1233,12 +1233,18 @@
         </div>
     </div>
     
+    <!-- Hidden Audio Element -->
+    <audio id="wedding-audio" preload="auto">
+        <source src="assets/images/music/Westlife -  Beautiful in white (Lyrics).mp3" type="audio/mpeg">
+    </audio>
+    
     <!-- Popup Script -->
     <script>
     // Show popup when page loads
     window.addEventListener('load', function() {
         const popup = document.getElementById('popup-modal');
         const viewInvitationBtn = document.getElementById('view-invitation-btn');
+        const audio = document.getElementById('wedding-audio');
         
         // Show popup immediately when page loads
         popup.style.display = 'flex';
@@ -1254,7 +1260,13 @@
         viewInvitationBtn.addEventListener('click', function(e) {
             e.preventDefault(); // Prevent default anchor behavior
             popup.style.display = 'none'; // Close popup
-            // Since we're already on index-3.html, we don't need to navigate
+            
+            // Play the wedding song
+            audio.play().catch(function(error) {
+                console.log('Audio play failed:', error);
+            });
+            
+            // Since we're already on index.html, we don't need to navigate
         });
         
         // Close popup with Escape key
