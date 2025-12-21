@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="wpOceans">
     <link rel="shortcut icon" type="image/png" href="assets/images/favicon.png">
-    <title> Ngọc Quân & Thuý Vi - Wedding & Wedding Planner HTML5 Template</title>
+    <title> LoveLove - Wedding & Wedding Planner HTML5 Template</title>
     <link href="assets/css/themify-icons.css" rel="stylesheet">
     <link href="assets/css/font-awesome.min.css" rel="stylesheet">
     <link href="assets/css/flaticon.css" rel="stylesheet">
@@ -694,12 +694,12 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="footer-image">
-                            <a class="logo" href="index.html"><img src="assets/images/logo.png" alt=""></a>
+                            <a class="logo" href="index-3.html"><img src="assets/images/logo.png" alt=""></a>
                         </div>
                     </div>
                     <div class="col-12">
                         <div class="footer-link">
-                            <h2>HungAnh.website</h2>
+                            <h2>HungAnh đơn vị xây dựng website</h2>
                         </div>
                     </div>
                     <div class="col-12">
@@ -938,6 +938,50 @@
         /* Styles for couple images */
         .couple-img {
             position: relative;
+        }
+        
+        /* Increase hero slider height by 5px */
+        .wpo-hero-slider,
+        .static-hero,
+        .wpo-hero-slider-s2,
+        .wpo-hero-slider-s3,
+        .wpo-hero-slider-s4 {
+            height: 905px !important;
+        }
+        
+        @media (max-width: 991px) {
+            .wpo-hero-slider,
+            .static-hero,
+            .wpo-hero-slider-s2,
+            .wpo-hero-slider-s3,
+            .wpo-hero-slider-s4 {
+                height: 605px !important;
+            }
+        }
+        
+        @media (max-width: 767px) {
+            .wpo-hero-slider,
+            .static-hero,
+            .wpo-hero-slider-s2,
+            .wpo-hero-slider-s3,
+            .wpo-hero-slider-s4 {
+                height: 505px !important;
+            }
+        }
+        
+        /* Ensure the hero style 3 overlay covers the full height */
+        .wpo-hero-style-3 .slide-inner:after {
+            height: 100% !important;
+        }
+        
+        /* Adjust portfolio image dimensions in responsive mode */
+        @media (max-width: 600px) {
+            .wpo-portfolio-section .portfolio-grids .grid,
+            .wpo-portfolio-section-s4 .portfolio-grids .grid {
+                width: 100% !important;
+                max-width: 410px !important;
+                margin: 0 auto !important;
+            }
         }
     </style>
 
