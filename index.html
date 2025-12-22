@@ -542,8 +542,11 @@
                                         </div>
                                     </div>
                                     <div class="clearfix error-handling-messages">
-                                        <div id="success">  Gửi lời chúc thành công 💖</div>
-                                        <div id="error"> Có lỗi xảy ra, vui lòng thử lại.
+                                        <div id="success" style="display: none; padding: 15px; margin: 10px 0; border-radius: 5px; background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; text-align: center; font-weight: bold;">
+                                            <i class="fi flaticon-check" style="margin-right: 8px;"></i> Gửi lời chúc thành công 💖
+                                        </div>
+                                        <div id="error" style="display: none; padding: 15px; margin: 10px 0; border-radius: 5px; background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; text-align: center; font-weight: bold;">
+                                            <i class="fi flaticon-error" style="margin-right: 8px;"></i> Có lỗi xảy ra, vui lòng thử lại.
                                         </div>
                                     </div>
                                 </form>
@@ -570,17 +573,73 @@
                             form.setAttribute('action', '');
                             form.setAttribute('method', 'post');
                         }
+                        
+                        // Style the submit button
+                        var submitBtn = document.querySelector('#contact-form-main .theme-btn');
+                        if (submitBtn) {
+                            submitBtn.style.background = '#D4B0A5';
+                            submitBtn.style.color = 'white';
+                            submitBtn.style.border = 'none';
+                            submitBtn.style.padding = '12px 25px';
+                            submitBtn.style.borderRadius = '30px';
+                            submitBtn.style.cursor = 'pointer';
+                            submitBtn.style.fontSize = '12px';
+                            submitBtn.style.fontWeight = 'bold';
+                            submitBtn.style.transition = 'all 0.3s ease';
+                            submitBtn.style.minWidth = '120px'; // Make button wider to accommodate longer text
+                            
+                            submitBtn.addEventListener('mouseover', function() {
+                                this.style.background = '#c09a8d';
+                                this.style.transform = 'scale(1.05)';
+                            });
+                            
+                            submitBtn.addEventListener('mouseout', function() {
+                                this.style.background = '#D4B0A5';
+                                this.style.transform = 'scale(1)';
+                            });
+                        }
                     });
                     
                     document.getElementById("contact-form-main").addEventListener("submit", function(e) {
                         e.preventDefault();
                         e.stopPropagation(); // Stop all other event handlers
 
+                        var ten = document.getElementById("ten").value.trim();
+                        var loichuc = document.getElementById("Loichuc").value.trim();
+                        
+                        // Check if fields are empty
+                        if (!ten) {
+                            document.getElementById("error").innerHTML = '<i class="fi flaticon-error" style="margin-right: 8px;"></i> Vui lòng nhập tên của bạn.';
+                            document.getElementById("error").style.display = "block";
+                            document.getElementById("success").style.display = "none";
+                            return;
+                        }
+                        
+                        if (!loichuc) {
+                            document.getElementById("error").innerHTML = '<i class="fi flaticon-error" style="margin-right: 8px;"></i> Vui lòng nhập lời chúc của bạn.';
+                            document.getElementById("error").style.display = "block";
+                            document.getElementById("success").style.display = "none";
+                            return;
+                        }
+                        
+                        // Get submit button and change its state
+                        var submitBtn = document.querySelector('#contact-form-main .theme-btn');
+                        var originalText = submitBtn.innerHTML;
+                        
+                        // Change button text to "Đang gửi..." and make it blink
+                        submitBtn.innerHTML = 'Đang gửi...';
+                        submitBtn.disabled = true;
+                        
+                        // Add blinking animation
+                        var blinkInterval = setInterval(function() {
+                            submitBtn.style.opacity = submitBtn.style.opacity === '0.5' ? '1' : '0.5';
+                        }, 500);
+                        
                         var formData = new FormData();
-                        formData.append("ten", document.getElementById("ten").value);
-                        formData.append("Loichuc", document.getElementById("Loichuc").value);
+                        formData.append("ten", ten);
+                        formData.append("Loichuc", loichuc);
 
-                        fetch("https://script.google.com/macros/s/AKfycbyCuxpb2p9FCkCsDxycu7N6mXwdXE6hsqurzvk9-DBJlhnwxUST9vAsx1JireIMwaAK/exec", {
+                        fetch("https://script.google.com/macros/s/AKfycbxJ7l30IVoxk1tqVVLyDGTBvQVPCoEsLP_jATg3aDpX61NaHYZ-rWVUfxYGZ3jzU-y1/exec", {
                             method: "POST",
                             body: formData
                         })
@@ -588,13 +647,84 @@
                             document.getElementById("success").style.display = "block";
                             document.getElementById("error").style.display = "none";
                             document.getElementById("contact-form-main").reset();
+                            
+                            // Change button to "Đã gửi"
+                            clearInterval(blinkInterval);
+                            submitBtn.style.opacity = '1';
+                            submitBtn.innerHTML = 'Đã gửi';
+                            
+                            // Create heart animation
+                            createHearts();
+                            
+                            // Reset button after 2 seconds
+                            setTimeout(function() {
+                                submitBtn.innerHTML = originalText;
+                                submitBtn.disabled = false;
+                            }, 2000);
                         })
                         .catch(() => {
+                            document.getElementById("error").innerHTML = '<i class="fi flaticon-error" style="margin-right: 8px;"></i> Có lỗi xảy ra, vui lòng thử lại.';
                             document.getElementById("error").style.display = "block";
+                            
+                            // Reset button state after error
+                            clearInterval(blinkInterval);
+                            submitBtn.style.opacity = '1';
+                            submitBtn.innerHTML = originalText;
+                            submitBtn.disabled = false;
                         });
                         
                         return false; // Prevent any further processing
                     });
+                    
+                    function createHearts() {
+                        // Remove any existing hearts
+                        const existingHearts = document.querySelectorAll('.heart-animation');
+                        existingHearts.forEach(heart => heart.remove());
+                        
+                        // Create 12 hearts (add 2 more)
+                        for (let i = 0; i < 12; i++) {
+                            setTimeout(() => {
+                                const heart = document.createElement('div');
+                                heart.className = 'heart-animation';
+                                
+                                // Larger size (small or large)
+                                const isLarge = Math.random() > 0.5;
+                                const size = isLarge ? Math.random() * 30 + 30 : Math.random() * 20 + 20; // 20-40px or 30-60px
+                                
+                                // Random position near the success message
+                                const successEl = document.getElementById('success');
+                                const rect = successEl.getBoundingClientRect();
+                                const formRect = document.getElementById('contact-form-main').getBoundingClientRect();
+                                
+                                heart.innerHTML = '❤';
+                                heart.style.position = 'fixed';
+                                heart.style.fontSize = size + 'px';
+                                heart.style.color = 'red'; // Change to red color
+                                heart.style.left = (formRect.left + Math.random() * formRect.width) + 'px';
+                                heart.style.top = (formRect.top + Math.random() * 50) + 'px';
+                                heart.style.zIndex = '9999';
+                                heart.style.pointerEvents = 'none';
+                                heart.style.userSelect = 'none';
+                                heart.style.transition = 'all 3.5s ease-out'; // Extended animation duration
+                                
+                                document.body.appendChild(heart);
+                                
+                                // Animate the heart
+                                setTimeout(() => {
+                                    const endX = (Math.random() - 0.5) * 200; // Random horizontal movement
+                                    const endY = -(Math.random() * 150 + 100); // Move upward
+                                    
+                                    heart.style.transform = `translate(${endX}px, ${endY}px) rotate(${Math.random() * 360}deg)`;
+                                    heart.style.opacity = '0';
+                                }, 10);
+                                
+                                // Remove heart after animation
+                                setTimeout(() => {
+                                    heart.remove();
+                                }, 3500); // Extended duration
+                            }, i * 100); // Stagger the heart appearances faster
+                        }
+                    }
                     </script>
                     <div class="col col-xl-8 col-lg-6 col-md-12 col-12">
                         <div class="contact-img wow fadeInRightSlow" data-wow-duration="1700ms">
@@ -824,7 +954,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="footer-image">
-                            <a class="logo" href="index-3.html"><img src="assets/images/logoha.png" alt=""></a>
+                            <a class="logo" href="https://hunganh.website/"><img src="assets/images/logoha.png" alt=""></a>
                         </div>
                     </div>
                     <div class="col-12">
@@ -844,14 +974,10 @@
                     </div>
                     <div class="col-12">
                         <div class="copyright">
-                            <p>© Copyright 2026 | <a href="index.html">HungAnh</a> | All right reserved.</p>
+                            <p>© Copyright 2026 | <a href="https://hunganh.website/">HungAnh</a> | All right reserved.</p>
                         </div>
                     </div>
-                    <div class="col-12">
-                        <div class="congrats-button">
-                            <button onclick="openCongratsForm()" style="background: #D4B0A5; color: white; border: none; padding: 10px 20px; border-radius: 30px; cursor: pointer; margin-top: 10px; font-weight: bold;">Gửi Lời Chúc Mừng</button>
-                        </div>
-                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -930,7 +1056,7 @@
             <p>Tên người nhận:<strong> NGUYEN THI THUY</strong> </p>
             <p>Số tài khoản: <strong>2026101998</strong></p>
             <p>Ngân hàng: <strong>MB BANK</strong></p>
-            <h5 style="font-size: 30px;">Xin Chân Thành Cảm Ơn !</h5>
+            <H4>---Thank You---</H4>
 
         </div>
     </div>
@@ -995,7 +1121,7 @@
             <p>Tên người nhận:<strong> NGUYEN NGOC QUAN</strong> </p>
             <p>Số tài khoản: <strong>197877847201</strong></p>
             <p>Ngân hàng: <strong>VIETINBANK</strong></p>
-            <h5 style="font-size: 30px;">Xin Chân Thành Cảm Ơn !</h5>
+            <H4>---Thank You---</H4>
         </div>
     </div>
 
@@ -1419,21 +1545,40 @@
             const popup = document.getElementById('popup-modal');
             const viewInvitationBtn = document.getElementById('view-invitation-btn');
             const audio = document.getElementById('wedding-audio');
+            const body = document.body;
 
             // Show popup immediately when page loads
             popup.style.display = 'flex';
+            
+            // Disable scrolling when popup is visible
+            body.style.overflow = 'hidden';
 
-            // Close popup when clicking outside the image
+            // Close popup when clicking anywhere in the popup
             popup.addEventListener('click', function (e) {
-                if (e.target === popup) {
-                    popup.style.display = 'none';
-                }
+                popup.style.display = 'none';
+                // Re-enable scrolling
+                body.style.overflow = 'auto';
+                
+                // Play the wedding song and update button text
+                audio.play().then(function () {
+                    // Update button to show "tắt nhạc" when music starts playing
+                    const musicText = document.getElementById('music-text');
+                    if (musicText) {
+                        musicText.innerHTML = '<i class="fi flaticon-music-player" style="font-size: 16px; margin-right: 5px;"></i>tắt nhạc';
+                    }
+                }).catch(function (error) {
+                    console.log('Audio play failed:', error);
+                });
             });
 
             // Handle View Invitation button click
             viewInvitationBtn.addEventListener('click', function (e) {
+                e.stopPropagation(); // Prevent popup from closing due to parent click
                 e.preventDefault(); // Prevent default anchor behavior
                 popup.style.display = 'none'; // Close popup
+                
+                // Re-enable scrolling
+                body.style.overflow = 'auto';
 
                 // Play the wedding song and update button text
                 audio.play().then(function () {
@@ -1453,6 +1598,8 @@
             document.addEventListener('keydown', function (e) {
                 if (e.key === 'Escape' && popup.style.display === 'flex') {
                     popup.style.display = 'none';
+                    // Re-enable scrolling
+                    body.style.overflow = 'auto';
                 }
             });
         });
@@ -1494,78 +1641,7 @@
         });
     </script>
 
-    <!-- Congratulations Form Modal -->
-    <div id="congrats-form-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); z-index: 10002; justify-content: center; align-items: center;">
-        <div style="background: white; padding: 30px; border-radius: 10px; width: 90%; max-width: 500px; position: relative;">
-            <span id="close-congrats-form" style="position: absolute; top: 10px; right: 15px; font-size: 24px; cursor: pointer; color: #D4B0A5;">&times;</span>
-            <h3 style="text-align: center; color: #D4B0A5; margin-top: 0;">Gửi Lời Chúc Mừng</h3>
-            <form id="congrats-form" action="https://script.google.com/macros/s/AKfycbwh_uEDldzBRlzrCHOkXkMjT6x_bpp2V9VvfP49JejKZjLFMYOI3kDHBZjiLEOtnBOI/exec" method="POST" target="_blank">
-                <div style="margin-bottom: 15px;">
-                    <label for="name" style="display: block; margin-bottom: 5px; color: #333;">Tên Của Bạn:</label>
-                    <input type="text" id="name" name="name" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
-                </div>
-                <div style="margin-bottom: 15px;">
-                    <label for="message" style="display: block; margin-bottom: 5px; color: #333;">Lời Chúc:</label>
-                    <textarea id="message" name="message" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; height: 120px;" placeholder="Hãy gửi lời chúc mừng đến cô dâu và chú rể..."></textarea>
-                </div>
-                <div style="margin-bottom: 15px;">
-                    <label for="email" style="display: block; margin-bottom: 5px; color: #333;">Email (Tùy chọn):</label>
-                    <input type="email" id="email" name="email" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
-                </div>
-                <button type="submit" style="background: #D4B0A5; color: white; border: none; padding: 12px 20px; border-radius: 5px; cursor: pointer; width: 100%; font-weight: bold;">Gửi Lời Chúc</button>
-            </form>
-        </div>
-    </div>
 
-    <!-- JavaScript for Form -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const congratsFormModal = document.getElementById('congrats-form-modal');
-            const closeCongratsForm = document.getElementById('close-congrats-form');
-            const congratsForm = document.getElementById('congrats-form');
-            
-            // Function to open the form
-            window.openCongratsForm = function() {
-                congratsFormModal.style.display = 'flex';
-            };
-            
-            // Close form when clicking the X
-            closeCongratsForm.addEventListener('click', function() {
-                congratsFormModal.style.display = 'none';
-            });
-            
-            // Close form when clicking outside the form
-            congratsFormModal.addEventListener('click', function(e) {
-                if (e.target === congratsFormModal) {
-                    congratsFormModal.style.display = 'none';
-                }
-            });
-            
-            // Form submission handler
-            congratsForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                // Get form data
-                const formData = new FormData(congratsForm);
-                
-                // Send data to Google Apps Script
-                fetch('https://script.google.com/macros/s/AKfycbwh_uEDldzBRlzrCHOkXkMjT6x_bpp2V9VvfP49JejKZjLFMYOI3kDHBZjiLEOtnBOI/exec', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(data => {
-                    alert('Lời chúc của bạn đã được gửi thành công! Cảm ơn bạn!');
-                    congratsForm.reset();
-                    congratsFormModal.style.display = 'none';
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Có lỗi xảy ra khi gửi lời chúc. Vui lòng thử lại!');
-                });
-            });
-        });
-    </script>
 
 </body>
 
