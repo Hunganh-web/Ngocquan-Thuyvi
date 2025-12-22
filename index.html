@@ -542,14 +542,59 @@
                                         </div>
                                     </div>
                                     <div class="clearfix error-handling-messages">
-                                        <div id="success">Thank you</div>
-                                        <div id="error"> Error occurred while sending email. Please try again later.
+                                        <div id="success">  Gửi lời chúc thành công 💖</div>
+                                        <div id="error"> Có lỗi xảy ra, vui lòng thử lại.
                                         </div>
                                     </div>
                                 </form>
                             </div>
                         </div>
                     </div>
+                    
+                    <!-- Custom Script for Contact Form -->
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const contactForm = document.getElementById('contact-form-main');
+                            
+                            if (contactForm) {
+                                contactForm.addEventListener('submit', function(e) {
+                                    e.preventDefault();
+                                    
+                                    const formData = new FormData(contactForm);
+                                    const ten = document.getElementById('ten').value;
+                                    const loichuc = document.getElementById('Loichuc').value;
+                                    
+                                    // Send data to Google Apps Script
+                                    fetch('https://script.google.com/macros/s/AKfycbwh_uEDldzBRlzrCHOkXkMjT6x_bpp2V9VvfP49JejKZjLFMYOI3kDHBZjiLEOtnBOI/exec', {
+                                        method: 'POST',
+                                        body: JSON.stringify({
+                                            ten: ten,
+                                            Loichuc: loichuc
+                                        }),
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                        }
+                                    })
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        document.getElementById('success').style.display = 'block';
+                                        document.getElementById('error').style.display = 'none';
+                                        contactForm.reset();
+                                        
+                                        // Hide success message after 5 seconds
+                                        setTimeout(function() {
+                                            document.getElementById('success').style.display = 'none';
+                                        }, 5000);
+                                    })
+                                    .catch(error => {
+                                        document.getElementById('error').style.display = 'block';
+                                        document.getElementById('success').style.display = 'none';
+                                        console.error('Error:', error);
+                                    });
+                                });
+                            }
+                        });
+                    </script>
                     <div class="col col-xl-8 col-lg-6 col-md-12 col-12">
                         <div class="contact-img wow fadeInRightSlow" data-wow-duration="1700ms">
                             <img src="assets/images/contact/img-4.jpg" alt="">
@@ -799,6 +844,11 @@
                     <div class="col-12">
                         <div class="copyright">
                             <p>© Copyright 2026 | <a href="index.html">HungAnh</a> | All right reserved.</p>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="congrats-button">
+                            <button onclick="openCongratsForm()" style="background: #D4B0A5; color: white; border: none; padding: 10px 20px; border-radius: 30px; cursor: pointer; margin-top: 10px; font-weight: bold;">Gửi Lời Chúc Mừng</button>
                         </div>
                     </div>
                 </div>
@@ -1387,7 +1437,10 @@
                 // Play the wedding song and update button text
                 audio.play().then(function () {
                     // Update button to show "tắt nhạc" when music starts playing
-                    musicText.innerHTML = '<i class="fi flaticon-music-player" style="font-size: 16px; margin-right: 5px;"></i>tắt nhạc';
+                    const musicText = document.getElementById('music-text');
+                    if (musicText) {
+                        musicText.innerHTML = '<i class="fi flaticon-music-player" style="font-size: 16px; margin-right: 5px;"></i>tắt nhạc';
+                    }
                 }).catch(function (error) {
                     console.log('Audio play failed:', error);
                 });
@@ -1436,6 +1489,79 @@
                 } else {
                     audio.pause();
                 }
+            });
+        });
+    </script>
+
+    <!-- Congratulations Form Modal -->
+    <div id="congrats-form-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); z-index: 10002; justify-content: center; align-items: center;">
+        <div style="background: white; padding: 30px; border-radius: 10px; width: 90%; max-width: 500px; position: relative;">
+            <span id="close-congrats-form" style="position: absolute; top: 10px; right: 15px; font-size: 24px; cursor: pointer; color: #D4B0A5;">&times;</span>
+            <h3 style="text-align: center; color: #D4B0A5; margin-top: 0;">Gửi Lời Chúc Mừng</h3>
+            <form id="congrats-form" action="https://script.google.com/macros/s/AKfycbwh_uEDldzBRlzrCHOkXkMjT6x_bpp2V9VvfP49JejKZjLFMYOI3kDHBZjiLEOtnBOI/exec" method="POST" target="_blank">
+                <div style="margin-bottom: 15px;">
+                    <label for="name" style="display: block; margin-bottom: 5px; color: #333;">Tên Của Bạn:</label>
+                    <input type="text" id="name" name="name" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label for="message" style="display: block; margin-bottom: 5px; color: #333;">Lời Chúc:</label>
+                    <textarea id="message" name="message" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; height: 120px;" placeholder="Hãy gửi lời chúc mừng đến cô dâu và chú rể..."></textarea>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label for="email" style="display: block; margin-bottom: 5px; color: #333;">Email (Tùy chọn):</label>
+                    <input type="email" id="email" name="email" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                </div>
+                <button type="submit" style="background: #D4B0A5; color: white; border: none; padding: 12px 20px; border-radius: 5px; cursor: pointer; width: 100%; font-weight: bold;">Gửi Lời Chúc</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- JavaScript for Form -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const congratsFormModal = document.getElementById('congrats-form-modal');
+            const closeCongratsForm = document.getElementById('close-congrats-form');
+            const congratsForm = document.getElementById('congrats-form');
+            
+            // Function to open the form
+            window.openCongratsForm = function() {
+                congratsFormModal.style.display = 'flex';
+            };
+            
+            // Close form when clicking the X
+            closeCongratsForm.addEventListener('click', function() {
+                congratsFormModal.style.display = 'none';
+            });
+            
+            // Close form when clicking outside the form
+            congratsFormModal.addEventListener('click', function(e) {
+                if (e.target === congratsFormModal) {
+                    congratsFormModal.style.display = 'none';
+                }
+            });
+            
+            // Form submission handler
+            congratsForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Get form data
+                const formData = new FormData(congratsForm);
+                
+                // Send data to Google Apps Script
+                fetch('https://script.google.com/macros/s/AKfycbwh_uEDldzBRlzrCHOkXkMjT6x_bpp2V9VvfP49JejKZjLFMYOI3kDHBZjiLEOtnBOI/exec', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert('Lời chúc của bạn đã được gửi thành công! Cảm ơn bạn!');
+                    congratsForm.reset();
+                    congratsFormModal.style.display = 'none';
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Có lỗi xảy ra khi gửi lời chúc. Vui lòng thử lại!');
+                });
             });
         });
     </script>

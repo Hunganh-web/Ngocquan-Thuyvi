@@ -3,6 +3,52 @@
 Theme Name:     LoveLove - Wedding & Wedding Planner HTML5 Template
 Version:        1.0.0
 -------------------------------------------------------------------*/
+
+@import url('https://fonts.googleapis.com/css2?family=Thasadith:ital,wght@0,400;0,700;1,400;1,700&family=Viaoda+Libre&display=swap');
+
+.thasadith-regular {
+  font-family: "Thasadith", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.thasadith-bold {
+  font-family: "Thasadith", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.thasadith-regular-italic {
+  font-family: "Thasadith", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.thasadith-bold-italic {
+  font-family: "Thasadith", sans-serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.viaoda-libre-regular {
+  font-family: "Viaoda Libre", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* Apply Thasadith font to list items */
+li {
+  font-family: "Thasadith", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+ul, ol {
+  font-family: "Thasadith", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
 /*--------------------------------------------------------------
 >>> TABLE OF CONTENTS:
 ----------------------------------------------------------------

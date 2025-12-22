@@ -111,6 +111,11 @@
                                             </div>
                                         </div>
 
+                                        <!-- Congratulations Form Button -->
+                                        <div style="text-align: center; margin: 30px 0;">
+                                            <button onclick="openCongratsForm()" style="background: #D4B0A5; color: white; border: none; padding: 12px 25px; border-radius: 30px; cursor: pointer; font-weight: bold; font-size: 16px;">Gửi Lời Chúc Mừng</button>
+                                        </div>
+
                                         <!-- Animated Gradient Button -->
                                         <div style="text-align: center; margin-top: 30px;">
                                             <div class="inline-block">
@@ -215,6 +220,79 @@
             // When music button is clicked, redirect to index.html
             musicControl.addEventListener('click', function () {
                 window.location.href = 'index.html';
+            });
+        });
+    </script>
+
+    <!-- Congratulations Form Modal -->
+    <div id="congrats-form-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); z-index: 10002; justify-content: center; align-items: center;">
+        <div style="background: white; padding: 30px; border-radius: 10px; width: 90%; max-width: 500px; position: relative;">
+            <span id="close-congrats-form" style="position: absolute; top: 10px; right: 15px; font-size: 24px; cursor: pointer; color: #D4B0A5;">&times;</span>
+            <h3 style="text-align: center; color: #D4B0A5; margin-top: 0;">Gửi Lời Chúc Mừng</h3>
+            <form id="congrats-form" action="https://script.google.com/macros/s/AKfycbwh_uEDldzBRlzrCHOkXkMjT6x_bpp2V9VvfP49JejKZjLFMYOI3kDHBZjiLEOtnBOI/exec" method="POST" target="_blank">
+                <div style="margin-bottom: 15px;">
+                    <label for="name" style="display: block; margin-bottom: 5px; color: #333;">Tên Của Bạn:</label>
+                    <input type="text" id="name" name="name" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label for="message" style="display: block; margin-bottom: 5px; color: #333;">Lời Chúc:</label>
+                    <textarea id="message" name="message" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; height: 120px;" placeholder="Hãy gửi lời chúc mừng đến cô dâu và chú rể..."></textarea>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label for="email" style="display: block; margin-bottom: 5px; color: #333;">Email (Tùy chọn):</label>
+                    <input type="email" id="email" name="email" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                </div>
+                <button type="submit" style="background: #D4B0A5; color: white; border: none; padding: 12px 20px; border-radius: 5px; cursor: pointer; width: 100%; font-weight: bold;">Gửi Lời Chúc</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- JavaScript for Form -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const congratsFormModal = document.getElementById('congrats-form-modal');
+            const closeCongratsForm = document.getElementById('close-congrats-form');
+            const congratsForm = document.getElementById('congrats-form');
+            
+            // Function to open the form
+            window.openCongratsForm = function() {
+                congratsFormModal.style.display = 'flex';
+            };
+            
+            // Close form when clicking the X
+            closeCongratsForm.addEventListener('click', function() {
+                congratsFormModal.style.display = 'none';
+            });
+            
+            // Close form when clicking outside the form
+            congratsFormModal.addEventListener('click', function(e) {
+                if (e.target === congratsFormModal) {
+                    congratsFormModal.style.display = 'none';
+                }
+            });
+            
+            // Form submission handler
+            congratsForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Get form data
+                const formData = new FormData(congratsForm);
+                
+                // Send data to Google Apps Script
+                fetch('https://script.google.com/macros/s/AKfycbwh_uEDldzBRlzrCHOkXkMjT6x_bpp2V9VvfP49JejKZjLFMYOI3kDHBZjiLEOtnBOI/exec', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert('Lời chúc của bạn đã được gửi thành công! Cảm ơn bạn!');
+                    congratsForm.reset();
+                    congratsFormModal.style.display = 'none';
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Có lỗi xảy ra khi gửi lời chúc. Vui lòng thử lại!');
+                });
             });
         });
     </script>
