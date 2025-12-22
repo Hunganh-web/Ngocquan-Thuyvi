@@ -551,57 +551,50 @@
                         </div>
                     </div>
                     
-                    <!-- Custom Script for Contact Form -->
                     <script>
-                        document.addEventListener('DOMContentLoaded', function() {
-                            const contactForm = document.getElementById('contact-form-main');
+                    // Override jQuery validation and submitHandler before jQuery processes the form
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // Disable any existing form validation and submission
+                        if (window.jQuery) {
+                            jQuery('#contact-form-main').off('submit');
                             
-                            if (contactForm) {
-                                // Prevent default form submission to avoid conflicts with obfuscated script
-                                contactForm.addEventListener('submit', function(e) {
-                                    e.preventDefault();
-                                    e.stopPropagation(); // Stop event from bubbling
-                                    
-                                    const ten = document.getElementById('ten').value;
-                                    const loichuc = document.getElementById('Loichuc').value;
-                                    
-                                    // Send data to Google Apps Script
-                                    fetch('https://script.google.com/macros/s/AKfycbwh_uEDldzBRlzrCHOkXkMjT6x_bpp2V9VvfP49JejKZjLFMYOI3kDHBZjiLEOtnBOI/exec', {
-                                        method: 'POST',
-                                        body: JSON.stringify({
-                                            ten: ten,
-                                            Loichuc: loichuc
-                                        }),
-                                        headers: {
-                                            'Content-Type': 'application/json',
-                                        }
-                                    })
-                                    .then(response => {
-                                        if (!response.ok) {
-                                            throw new Error('Network response was not ok');
-                                        }
-                                        return response.json();
-                                    })
-                                    .then(data => {
-                                        document.getElementById('success').style.display = 'block';
-                                        document.getElementById('error').style.display = 'none';
-                                        contactForm.reset();
-                                        
-                                        // Hide success message after 5 seconds
-                                        setTimeout(function() {
-                                            document.getElementById('success').style.display = 'none';
-                                        }, 5000);
-                                    })
-                                    .catch(error => {
-                                        document.getElementById('error').style.display = 'block';
-                                        document.getElementById('success').style.display = 'none';
-                                        console.error('Error:', error);
-                                    });
-                                    
-                                    return false; // Explicitly prevent form submission
-                                });
+                            // Override the validate method to prevent default behavior
+                            if (jQuery.fn.validate) {
+                                jQuery('#contact-form-main').validate = function() { return false; };
                             }
+                        }
+                        
+                        // Set form action to empty to prevent default submission
+                        var form = document.getElementById("contact-form-main");
+                        if (form) {
+                            form.setAttribute('action', '');
+                            form.setAttribute('method', 'post');
+                        }
+                    });
+                    
+                    document.getElementById("contact-form-main").addEventListener("submit", function(e) {
+                        e.preventDefault();
+                        e.stopPropagation(); // Stop all other event handlers
+
+                        var formData = new FormData();
+                        formData.append("ten", document.getElementById("ten").value);
+                        formData.append("Loichuc", document.getElementById("Loichuc").value);
+
+                        fetch("https://script.google.com/macros/s/AKfycbwh_uEDldzBRlzrCHOkXkMjT6x_bpp2V9VvfP49JejKZjLFMYOI3kDHBZjiLEOtnBOI/exec", {
+                            method: "POST",
+                            body: formData
+                        })
+                        .then(() => {
+                            document.getElementById("success").style.display = "block";
+                            document.getElementById("error").style.display = "none";
+                            document.getElementById("contact-form-main").reset();
+                        })
+                        .catch(() => {
+                            document.getElementById("error").style.display = "block";
                         });
+                        
+                        return false; // Prevent any further processing
+                    });
                     </script>
                     <div class="col col-xl-8 col-lg-6 col-md-12 col-12">
                         <div class="contact-img wow fadeInRightSlow" data-wow-duration="1700ms">
