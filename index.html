@@ -557,10 +557,11 @@
                             const contactForm = document.getElementById('contact-form-main');
                             
                             if (contactForm) {
+                                // Prevent default form submission to avoid conflicts with obfuscated script
                                 contactForm.addEventListener('submit', function(e) {
                                     e.preventDefault();
+                                    e.stopPropagation(); // Stop event from bubbling
                                     
-                                    const formData = new FormData(contactForm);
                                     const ten = document.getElementById('ten').value;
                                     const loichuc = document.getElementById('Loichuc').value;
                                     
@@ -575,7 +576,12 @@
                                             'Content-Type': 'application/json',
                                         }
                                     })
-                                    .then(response => response.json())
+                                    .then(response => {
+                                        if (!response.ok) {
+                                            throw new Error('Network response was not ok');
+                                        }
+                                        return response.json();
+                                    })
                                     .then(data => {
                                         document.getElementById('success').style.display = 'block';
                                         document.getElementById('error').style.display = 'none';
@@ -591,6 +597,8 @@
                                         document.getElementById('success').style.display = 'none';
                                         console.error('Error:', error);
                                     });
+                                    
+                                    return false; // Explicitly prevent form submission
                                 });
                             }
                         });
