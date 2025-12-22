@@ -10,13 +10,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="wpOceans">
     <link rel="shortcut icon" type="image/png" href="assets/images/favicon.png">
-    <title>Lễ Thành Hôn -  Ngọc Quân & Thuý Vi </title>
-        
+    <title>Lễ Thành Hôn - Ngọc Quân & Thuý Vi </title>
+
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="Lễ Thành Hôn - Ngọc Quân & Thuý Vi">
-    <meta property="og:description" content="Lễ Thành hôn của Ngọc Quân & Thuý Vi sẽ diễn ra vào ngày 27/12/2026. Hãy cùng chúng tôicelebrate this special day!">
-    <meta property="og:image" content="assets/images/meta.jpg">
-    <meta property="og:url" content="https://yourwebsite.com/index.html">
+    <meta property="og:description" content="Sẽ diễn ra vào ngày 27/12/2026!">
+    <meta property="og:image" content="https://hunganh-web.github.io/Ngocquan-Thuyvi/assets/images/meta.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:url" content="https://hunganh-web.github.io/Ngocquan-Thuyvi/">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Lễ Thành Hôn - Ngọc Quân & Thuý Vi">
     <link href="assets/css/themify-icons.css" rel="stylesheet">
@@ -181,12 +183,12 @@
             </div>
         </header>
         <!-- end of header -->
-        
+
         <!-- Save the Date Section -->
         <div style="text-align: center; padding: 0px 0;">
             <img src="assets/images/savethedate.png" alt="Save the Date" style="max-width: 100%; height: auto;">
         </div>
-        
+
         <!-- start of hero -->
         <section class="wpo-hero-slider wpo-hero-style-3 wow fadeIn" data-wow-duration="1000ms">
             <h2 class="hidden">some</h2>
@@ -257,7 +259,8 @@
                                         <h3>Nhà Trai</h3>
                                         <p>Ông: <strong>Nguyễn Ngọc Thương</strong> <br> Bà: <strong>Lê Thị
                                                 Thuỷ</strong></p>
-                                        <p>Xóm <STRong>Hồng Thái</STRong>  - <strong>Nam Đàn</strong> - <strong>Nghệ An</strong></p>
+                                        <p>Xóm <STRong>Hồng Thái</STRong> - <strong>Nam Đàn</strong> - <strong>Nghệ
+                                                An</strong></p>
                                     </div>
                                 </div>
 
@@ -683,7 +686,8 @@
         <section class="wpo-blog-section section-padding wow fadeInUp" data-wow-duration="1000ms" id="blog">
             <div class="container">
                 <div class="wpo-section-title">
-                    <h4 style="font-size: 20px; text-align: center;">Sự hiện diện của bạn <br>là niềm vinh hạnh cho gia đình chúng tôi</h4>
+                    <h4 style="font-size: 20px; text-align: center;">Sự hiện diện của bạn <br>là niềm vinh hạnh cho gia
+                        đình chúng tôi</h4>
                     <h2>Rất Hân Hạnh Được Đón Tiếp !</h2>
                 </div>
                 <div class="wpo-blog-items">
@@ -774,7 +778,8 @@
                     <div class="col-12">
                         <div class="link-widget">
                             <ul>
-                                <li><a href="https://www.facebook.com/HungAnh999/?locale=vi_VN"><i class="ti-facebook"></i></a></li>
+                                <li><a href="https://www.facebook.com/HungAnh999/?locale=vi_VN"><i
+                                            class="ti-facebook"></i></a></li>
                                 <li><a href="tel:0982345830"><i class="ti-mobile"></i></a></li>
                                 <li><a href="mailto:Hunganhlux@gmail.com"><i class="ti-email"></i></a></li>
                             </ul>
@@ -1241,7 +1246,7 @@
                 // Random vertical start position (random height for more natural look)
                 const startHeight = Math.random() * -window.innerHeight;
                 snowflake.style.top = `${startHeight}px`;
-                        
+
                 // For responsive mode, adjust size based on screen width
                 if (window.innerWidth <= 768) {
                     snowflake.style.width = `${size * 0.8}px`;
@@ -1269,7 +1274,7 @@
             }
 
             // Handle window resize for responsive adjustments
-            window.addEventListener('resize', function() {
+            window.addEventListener('resize', function () {
                 snowflakes.forEach(flake => {
                     // Adjust size for mobile devices
                     if (window.innerWidth <= 768) {
@@ -1284,23 +1289,23 @@
                     }
                 });
             });
-                    
+
             // Animation loop
             let time = 0;
             function animateSnowflakes() {
                 time += 0.01;
-                        
+
                 snowflakes.forEach(flake => {
                     // Move downward
                     flake.y += flake.speed;
-                            
+
                     // Add swaying motion
                     flake.x += Math.sin(time * flake.swaySpeed) * flake.sway;
-                            
+
                     // Rotate snowflake
                     const rotation = (time * flake.rotationSpeed * 10) % 360;
                     flake.element.style.transform = `translate(${flake.x}%, ${flake.y}px) rotate(${rotation}deg)`;
-                            
+
                     // Reset snowflake when it goes off screen
                     if (flake.y > window.innerHeight + 50) {
                         flake.y = -50;
@@ -1308,7 +1313,7 @@
                         flake.element.style.left = `${flake.x}%`;
                     }
                 });
-                        
+
                 requestAnimationFrame(animateSnowflakes);
             }
 
